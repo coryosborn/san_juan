@@ -48,32 +48,32 @@ module SanJuan
       namespace role do
         desc "Start god"
         task :start, :roles => role do
-          sudo "god -c #{san_juan.configuration_path(current_path, role)}"
+          run "god -c #{san_juan.configuration_path(current_path, role)}"
         end
 
         desc "Start god interactively"
         task :start_interactive, :roles => role do
-          sudo "god -c #{san_juan.configuration_path(current_path, role)} -D"
+          run "god -c #{san_juan.configuration_path(current_path, role)} -D"
         end
 
         desc "Reload the god config file"
         task :reload, :roles => role do
-          sudo "god load #{san_juan.configuration_path(current_path, role)}"
+          run "god load #{san_juan.configuration_path(current_path, role)}"
         end
 
         desc "Quit god, but not the processes it's monitoring"
         task :quit, :roles => role do
-          sudo 'god quit'
+          run 'god quit'
         end
 
         desc "Terminate god and all monitored processes"
         task :terminate, :roles => role do
-          sudo 'god terminate'
+          run 'god terminate'
         end
 
         desc "Describe the status of the running tasks"
         task :status, :roles => role do
-          sudo 'god status'
+          run 'god status'
         end
 
         watches.each do |watch|
@@ -81,7 +81,7 @@ module SanJuan
             %w(start restart stop unmonitor remove log).each do |command|
               desc "#{command.capitalize} #{watch}"
               task command, :roles => role do
-                sudo "god #{command} #{watch}"
+                run "god #{command} #{watch}"
               end
             end
           end
